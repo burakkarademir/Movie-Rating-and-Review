@@ -45,3 +45,16 @@ def addInfo(request, id):
         "movie": movie
     }
     return render(request, 'main/add_info.html', context)
+
+def add_release_date(request, movie_id):
+    if request.method == "POST":
+        form = ReleaseDateForm(request.POST or None)
+
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.Movie.add(movie_id)
+            data.save()
+            return redirect("main:home")
+    else:
+        form = MovieForm()
+    return render(request, 'main/add_release_date.html', {"form": form})
