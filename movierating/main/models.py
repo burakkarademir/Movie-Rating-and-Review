@@ -10,7 +10,7 @@ class Movie(models.Model):
     budget = models.IntegerField(null=True)
     runtime = models.IntegerField(null=True)
     avg_rank = models.FloatField(null=True)
-    count_rank = models.IntegerField(null=True)
+    # count_rank = models.IntegerField(null=True)
     summary = models.TextField(max_length=5000, default='')
     revenue = models.IntegerField(null=True)
     language = models.CharField(max_length=300, default='')
