@@ -19,6 +19,11 @@
                             <div class="text-center">
                                 <i class="text center">{{ movie.release_date }}</i>
                             </div>
+                            {% if user.is_superuser %}
+                            <div class="text-left">
+                                <a href="{% url 'main:add_info' movie.id %}">Add-Info</a>
+                            </div>
+                            {% endif %}
                             <div class="text-right">
                                 <a href="{% url 'main:details' movie.id %}">More</a>
                             </div>

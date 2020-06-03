@@ -36,3 +36,12 @@ def add_movie(request):
     else:
         form = MovieForm()
     return render(request, 'main/addmovies.html', {"form": form})
+
+
+def addInfo(request, id):
+    movie = Movie.objects.get(id=id)
+
+    context = {
+        "movie": movie
+    }
+    return render(request, 'main/add_info.html', context)
