@@ -17,6 +17,15 @@
                         {{ movie.title }}
                     </h3>
                     <br>
+                    <h5>Director: {{movie.title}}</h5>
+                    <h5>Cast: {{movie.title}}</h5>
+                    <h5>Rating: {{movie.title}}</h5>
+                    <p>{{ movie.title }}</p>
+                    <a href="{% url 'main:edit_movie' movie.movie_id %}" class="btn btn-warning">Edit Movie</a>
+                    <a href="{% url 'main:delete_movie' movie.movie_id %}" class="btn btn-danger">Delete Movie</a>
+                    <h5>Budget: {{movie.budget}}$</h5>
+                    <h5>Runtime: {{movie.runtime}} hrs</h5>
+                    <h5>Rating: {{movie.avg_rank}}</h5>
                     <p>{{ movie.summary }}</p>
                     <h5>Budget: {{ movie.budget }}$</h5>
                     <h5>Revenue: {{ movie.revenue }}$</h5>
@@ -65,12 +74,33 @@
         </div>
     </div>
 
+    <div class="card">
+        <div class="card-body">
+            <ul>
+                {% for review in reviews %}
+                <li>{{ review.review }} <i>--{{ review.user_id}}</i></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">Soundtracks</h3>
+            <ul>
+                {% for soundtrack in soundtrack %}
+                    <li>{{ soundtrack.soundtrack_name }}</li>
+                    <a href="{% url 'main:edit_soundtrack' movie.movie_id %}" class="btn btn-warning">Edit Soundtrack</a>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
     {% if user.is_superuser %}
     <br>
     <div class="container">
         <button>Add release date</button>
         <button>Add Genre</button>
     {% endif %}
+    </div>
 </div>
 
 {% endblock %}

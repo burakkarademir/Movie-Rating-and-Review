@@ -27,11 +27,17 @@ def detail(request, id):
         kwx = i.keyword_id
         kw_list.append(kwx)
 
+    soundtrack2 = movie_soundtrack.objects.filter(movie_id=movie)
+    soundtracks = []
+    for i in soundtrack2:
+        soundtrack_name=i.soundtrack_id
+        soundtracks.append(soundtrack_name)
 
     context = {
         "movie": movie,
         "reviews": reviews,
         "keywords": kw_list
+        "soundtrack": soundtracks
     }
     return render(request, 'main/details.html', context)
 
