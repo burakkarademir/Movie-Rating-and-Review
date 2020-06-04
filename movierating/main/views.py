@@ -17,10 +17,12 @@ def home(request):
 # detail page
 
 def detail(request, id):
-    movie = Movie.objects.get(id=id)
+    movie = Movie.objects.get(movie_id=id)
+    reviews = review.objects.filter(movie_id=id)
 
     context = {
-        "movie": movie
+        "movie": movie,
+        "reviews": reviews
     }
     return render(request, 'main/details.html', context)
 
@@ -45,3 +47,36 @@ def addInfo(request, id):
         "movie": movie
     }
     return render(request, 'main/add_info.html', context)
+
+
+def addReview(request, id):
+    if request.user.is_authenticated:
+        movie = Movie.objects.get(movie_id=id)
+        if request.method == "POST":
+            form = ReviewForm(request.POST or None)
+            if form.is_valid():
+                data = form.save(commit=False)
+                data.review = request.POST["review"]
+                data.user_id = request.user
+                data.movie_id = movie
+                data.save()
+                return redirect("main:home")
+        else:
+            form = ReviewForm()
+        return render(request, 'main/index.html', {"form": form})
+    else:
+        return redirect("main:home")
+
+def add_release_date(request, id):
+    movie = Movie.objects.get(movie_id=id)
+    if request.method == "POST":
+        form = ReleaseDateForm(request.POST or None)
+
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.save()
+            data.movie_id.add(movie)
+            return redirect("main:home")
+    else:
+        form = ReleaseDateForm()
+    return render(request, 'main/add_release_date.html', {"form": form})

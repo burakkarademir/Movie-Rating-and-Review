@@ -16,6 +16,9 @@ class Movie(models.Model):
     language = models.CharField(max_length=300, default='')
     image = models.URLField(default=None, null=True)
 
+    def __str__(self):
+        return self.title
+
 
 class release_dates(models.Model):
     movie_id = models.ManyToManyField(Movie)
@@ -122,8 +125,11 @@ class awards(models.Model):
 
 class review(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie_id = models.ManyToManyField(Movie)
+    movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
     review = models.TextField(max_length=5000)
+
+    def __str__(self):
+        return self.user_id.username
 
 
 class ratings(models.Model):
