@@ -17,7 +17,7 @@ def home(request):
 # detail page
 
 def detail(request, id):
-    movie = Movie.objects.get(id=id)
+    movie = Movie.objects.get(movie_id=id)
 
     context = {
         "movie": movie
@@ -46,15 +46,16 @@ def addInfo(request, id):
     }
     return render(request, 'main/add_info.html', context)
 
-def add_release_date(request, movie_id):
+def add_release_date(request, id):
+    movie = Movie.objects.get(movie_id=id)
     if request.method == "POST":
         form = ReleaseDateForm(request.POST or None)
 
         if form.is_valid():
             data = form.save(commit=False)
-            data.Movie.add(movie_id)
             data.save()
+            data.movie_id.add(movie)
             return redirect("main:home")
     else:
-        form = MovieForm()
+        form = ReleaseDateForm()
     return render(request, 'main/add_release_date.html', {"form": form})

@@ -12,16 +12,23 @@
                 </div>
                 <div class="col-md-8">
                     <h3 class="text-center">
-                        {{ movie.name }}
+                        {{ movie.title }}
                     </h3>
-                    <h5>Director: {{movie.director}}</h5>
-                    <h5>Cast: {{movie.cast}}</h5>
-                    <h5>Rating: {{movie.averageRating}}</h5>
-                    <p>{{ movie.description }}</p>
+                    <h5>Director: {{movie.title}}</h5>
+                    <h5>Cast: {{movie.title}}</h5>
+                    <h5>Rating: {{movie.title}}</h5>
+                    <p>{{ movie.title }}</p>
                 </div>
             </div>
         </div>
     </div>
+    {% if user.is_superuser %}
+    <br>
+    <div>
+        <button>Add release date</button>
+        <button>Add genre</button>
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}

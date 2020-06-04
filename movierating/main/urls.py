@@ -9,5 +9,5 @@ urlpatterns = [
     path('details/<int:id>/', views.detail, name="details"),
     path('addmovies/', views.add_movie, name="add_movie"),
     # path('add_info/<int:id>/', views.addInfo, name="add_info")
-    path('addreleasedate/', views.add_release_date, name="add_release_date"),
+    path('/addreleasedate/<int:id>/', views.add_release_date, name="add_release_date"),
 ]
