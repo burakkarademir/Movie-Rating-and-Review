@@ -11,5 +11,4 @@ urlpatterns = [
     path('addreview/<int:id>/', views.addReview, name="add_review"),
     path('addreleasedate/<int:id>/', views.add_release_date, name="add_release_date")
     # path('add_info/<int:id>/', views.addInfo, name="add_info")
-    path('/addreleasedate/<int:id>/', views.add_release_date, name="add_release_date"),
 ]
