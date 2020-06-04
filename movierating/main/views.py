@@ -36,7 +36,7 @@ def detail(request, id):
     context = {
         "movie": movie,
         "reviews": reviews,
-        "keywords": kw_list
+        "keywords": kw_list,
         "soundtrack": soundtracks
     }
     return render(request, 'main/details.html', context)
