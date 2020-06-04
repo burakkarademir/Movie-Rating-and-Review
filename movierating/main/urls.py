@@ -14,6 +14,7 @@ urlpatterns = [
     path('addkeywords/<int:id>/', views.add_keywords, name="add_keywords"),
     path('addcountry/<int:id>/', views.add_country, name="add_country"),
     path('addrating/<int:id>/', views.addRating, name="add_rating"),
-    path('editreview/<int:movie_id>/<int:review_id>/', views.edit_review, name="edit_review")
+    path('editreview/<int:movie_id>/<int:review_id>/', views.edit_review, name="edit_review"),
+    path('deletereview/<int:movie_id>/<int:review_id>/', views.delete_review, name="delete_review")
     # path('add_info/<int:id>/', views.addInfo, name="add_info")
 ]

@@ -19,10 +19,19 @@ def home(request):
 def detail(request, id):
     movie = Movie.objects.get(movie_id=id)
     reviews = review.objects.filter(movie_id=id)
+    
+    # key words section
+    kw = movie_keywords.objects.filter(movie_id=movie)
+    kw_list = []
+    for i in kw:
+        kwx = i.keyword_id
+        kw_list.append(kwx)
+
 
     context = {
         "movie": movie,
-        "reviews": reviews
+        "reviews": reviews,
+        "keywords": kw_list
     }
     return render(request, 'main/details.html', context)
 
@@ -186,5 +195,18 @@ def edit_review(request, movie_id, review_id):
             return render(request, 'main/edit_review.html', {"form": form})
         else:
             return redirect("main:details", movie_id)
+    else:
+        return redirect("main:home")
+
+
+def delete_review(request, movie_id, review_id):
+    if request.user.is_authenticated:
+        movie = Movie.objects.get(movie_id=movie_id)
+        Review = review.objects.get(movie_id=movie, id=review_id)
+
+        if request.user == Review.user_id:
+            Review.delete()
+        
+        return redirect("main:details", movie_id)
     else:
         return redirect("main:home")
