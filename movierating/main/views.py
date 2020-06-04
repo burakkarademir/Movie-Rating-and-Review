@@ -18,7 +18,10 @@ def home(request):
 
 def detail(request, id):
     movie = Movie.objects.get(movie_id=id)
+<<<<<<< HEAD
     reviews = review.objects.filter(movie_id=id)
+=======
+>>>>>>> 52847b7b41ff00122365dda686399875ab843e24
 
     context = {
         "movie": movie,

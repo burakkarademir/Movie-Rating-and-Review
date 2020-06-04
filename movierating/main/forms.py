@@ -18,3 +18,7 @@ class ReleaseDateForm(forms.ModelForm):
     class Meta:
         model = release_dates
         fields = ('country', 'release_date')
+class ReleaseDateForm(forms.ModelForm):
+    class Meta:
+        model = release_dates
+        fields = ('country', 'release_date')

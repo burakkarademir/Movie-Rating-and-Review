@@ -51,6 +51,11 @@
     <div class="container">
         <button>Add release date</button>
         <button>Add Genre</button>
+    {% if user.is_superuser %}
+    <br>
+    <div>
+        <button>Add release date</button>
+        <button>Add genre</button>
     </div>
     {% endif %}
 </div>
