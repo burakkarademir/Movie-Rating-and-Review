@@ -43,13 +43,20 @@ class person(models.Model):
     person_id = models.AutoField(primary_key=True)
     person_name = models.CharField(max_length=300, default='')
     person_lastname = models.CharField(max_length=300, default='')
-    person_birthdate = models.DateField()
-    person_deathdate = models.DateField()
+    person_birthdate = models.CharField(max_length=300, default='')
+    person_deathdate = models.CharField(max_length=300, default='')
 
 
 class gender(models.Model):
     gender_id = models.AutoField(primary_key=True)
     gender = models.CharField(max_length=300, default='')
+
+
+class character_role(models.Model):
+    character_id = models.AutoField(primary_key=True, default='1')
+    role = models.CharField(max_length=300, default='')
+    character_name = models.CharField(max_length=300, default='')
+    character_order = models.IntegerField(null=True)
 
 
 class movie_cast(models.Model):
@@ -62,19 +69,16 @@ class movie_cast(models.Model):
         gender,
         on_delete=models.CASCADE,
     )
-    character_name = models.CharField(max_length=300, default='')
-    character_order = models.IntegerField()
-
-
-class character_role(models.Model):
-    movie_id = models.ManyToManyField(Movie)
-    person_id = models.ForeignKey(person, on_delete=models.CASCADE)
-    role = models.CharField(max_length=300, default='')
+    character_id = models.OneToOneField(
+        character_role,
+        on_delete=models.CASCADE,
+    )
 
 
 class departments(models.Model):
     department_id = models.AutoField(primary_key=True)
     department_name = models.CharField(max_length=300, default='')
+    job = models.CharField(max_length=300, default='')
 
 
 class movie_crew(models.Model):
@@ -84,7 +88,6 @@ class movie_crew(models.Model):
         on_delete=models.CASCADE,
     )
     person_id = models.ForeignKey(person, on_delete=models.CASCADE)
-    job = models.CharField(max_length=300, default='')
 
 
 class production(models.Model):
@@ -103,6 +106,7 @@ class production_company(models.Model):
 class award_name(models.Model):
     award_id = models.AutoField(primary_key=True)
     award_name = models.CharField(max_length=300, default='')
+    year = models.CharField(max_length=300, default='')
 
 
 class category_name(models.Model):
@@ -120,7 +124,6 @@ class awards(models.Model):
         category_name,
         on_delete=models.CASCADE,
     )
-    year = models.DateField()
 
 
 class review(models.Model):
