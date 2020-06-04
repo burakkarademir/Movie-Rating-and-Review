@@ -170,10 +170,13 @@ class soundtrack(models.Model):
     writer_name = models.CharField(max_length=300, default='')
     singer = models.CharField(max_length=300, default='')
 
+    def __str__(self):
+        return self.soundtrack_name
+
 
 class movie_soundtrack(models.Model):
     movie_id = models.ManyToManyField(Movie)
-    sountrack_id = models.OneToOneField(
+    soundtrack_id = models.OneToOneField(
         soundtrack,
         on_delete=models.CASCADE,
     )

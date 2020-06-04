@@ -80,3 +80,21 @@ def add_release_date(request, id):
     else:
         form = ReleaseDateForm()
     return render(request, 'main/add_release_date.html', {"form": form})
+
+
+def add_soundtrack(request, id):
+    movie = Movie.objects.get(movie_id=id)
+    if request.method == "POST":
+        form = SoundtrackForm(request.POST or None)
+
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.save()
+            st = soundtrack.objects.get(soundtrack_name=data.soundtrack_name)
+            ms = movie_soundtrack(soundtrack_id=st)
+            ms.save()
+            ms.movie_id.add(movie)
+            return redirect("main:home")
+    else:
+        form = SoundtrackForm()
+    return render(request, 'main/add_soundtrack.html', {"form": form})

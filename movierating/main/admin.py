@@ -6,3 +6,5 @@ from .models import *
 admin.site.register(Movie)
 admin.site.register(review)
 admin.site.register(release_dates)
+admin.site.register(soundtrack)
+admin.site.register(movie_soundtrack)
