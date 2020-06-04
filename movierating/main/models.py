@@ -137,10 +137,16 @@ class ratings(models.Model):
     movie_id = models.ManyToManyField(Movie)
     rating = models.FloatField()
 
+    def __str__(self):
+        return self.user_id.username
+
 
 class country_name(models.Model):
     country_id = models.AutoField(primary_key=True)
     country_name = models.CharField(max_length=300, default='')
+
+    def __str__(self):
+        return self.country_name
 
 
 class countries(models.Model):
@@ -154,6 +160,9 @@ class countries(models.Model):
 class keywords(models.Model):
     keyword_id = models.AutoField(primary_key=True)
     keyword_name = models.CharField(max_length=300, default='')
+
+    def __str__(self):
+        return self.keyword_name
 
 
 class movie_keywords(models.Model):

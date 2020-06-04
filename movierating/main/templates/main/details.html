@@ -1,5 +1,7 @@
 {% extends 'main/base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 
 <div class="container">
@@ -14,10 +16,10 @@
                     <h3 class="text-center">
                         {{ movie.title }}
                     </h3>
-                    <h5>Director: {{movie.title}}</h5>
-                    <h5>Cast: {{movie.title}}</h5>
-                    <h5>Rating: {{movie.title}}</h5>
-                    <p>{{ movie.title }}</p>
+                    <h5>Budget: {{movie.budget}}$</h5>
+                    <h5>Runtime: {{movie.runtime}} hrs</h5>
+                    <h5>Rating: {{movie.avg_rank}}</h5>
+                    <p>{{ movie.summary }}</p>
                 </div>
             </div>
         </div>
@@ -27,6 +29,20 @@
     <div class="card">
         <div class="card-body">
             <h3 class="text-center">Reviews</h3>
+            <ul>
+                {% for review in reviews %}
+                <li>{{ review.review }} <i>--{{ review.user_id}}</i></li>
+                {% if request.user == review.user_id %}
+                <a href="{% url 'main:edit_review' movie.movie_id review.id %}">Edit</a>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">Add Review</h3>
             <form action="{% url 'main:add_review' movie.movie_id %}" method="POST">
                 {% csrf_token %}
                 <label for="review">Review</label>
@@ -37,15 +53,6 @@
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-body">
-            <ul>
-                {% for review in reviews %}
-                <li>{{ review.review }} <i>--{{ review.user_id}}</i></li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
     {% if user.is_superuser %}
     <br>
     <div class="container">

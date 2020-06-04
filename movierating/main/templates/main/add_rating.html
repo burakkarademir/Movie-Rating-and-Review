@@ -1,0 +1,42 @@
+{% extends 'main/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ movie.image }}" alt="{{ movie.title }}" class="img-fluid">
+                </div>
+                <div class="col-md-8">
+                    <h3 class="text-center">
+                        {{ movie.title }}
+                    </h3>
+                    <h5>Budget: {{movie.budget}}$</h5>
+                    <h5>Runtime: {{movie.runtime}} hrs</h5>
+                    <h5>Rating: {{movie.avg_rank}}</h5>
+                    <p>{{ movie.summary }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <h3 class="text-center">Rate this movie</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                {% if error %}
+                    <strong style="color: red;">{{ error }}</strong>
+                {% endif %}
+                <input type="submit" value="Rate">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -25,3 +25,20 @@ class SoundtrackForm(forms.ModelForm):
         model = soundtrack
         fields = ('soundtrack_name', 'writer_name', 'singer')
 
+
+class KeywordsForm(forms.ModelForm):
+    class Meta:
+        model = keywords
+        fields = ('keyword_name',)
+
+
+class CountryNameForm(forms.ModelForm):
+    class Meta:
+        model = country_name
+        fields = ('country_name',)
+
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model = ratings
+        fields = ('rating',)

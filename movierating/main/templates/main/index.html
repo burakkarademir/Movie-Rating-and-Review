@@ -21,11 +21,14 @@
                             </div>
                             {% if user.is_superuser %}
                             <div class="text-left">
-                                <a href="{% url 'main:add_soundtrack' movie.movie_id %}">Add-Info</a>
+                                <a href="{% url 'main:add_country' movie.movie_id %}">Add-Info</a>
                             </div>
                             {% endif %}
                             <div class="text-right">
                                 <a href="{% url 'main:details' movie.movie_id %}">More</a>
+                            </div>
+                            <div class="text-center">
+                                <a href="{% url 'main:add_rating' movie.movie_id %}">Rate</a>
                             </div>
                         </div>
                     </div>
