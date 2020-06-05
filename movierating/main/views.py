@@ -387,7 +387,6 @@ def edit_soundtrack(request, id):
     return render(request, 'main/edit_soundtrack.html', {"form": form})
 
 
-<<<<<<< HEAD
 def edit_country(request, id):
     movie = Movie.objects.get(movie_id=id)
     cid = countries.objects.get(movie_id=movie)
@@ -402,20 +401,3 @@ def edit_country(request, id):
     else:
         form = CountryNameForm(instance=cinfo)
     return render(request, 'main/edit_country.html', {"form": form})
-=======
-def add_genre(request, id):
-    movie = Movie.objects.get(movie_id=id)
-    if request.method == "POST":
-        form = GenreForm(request.POST or None)
-        if form.is_valid():
-            data = form.save(commit=False)
-            data.save()
-            kw = genres.objects.get(genre=data.genre)
-            mk = movie_genre(genre_id=kw)
-            mk.save()
-            mk.movie_id.add(movie)
-            return redirect("main:home")
-    else:
-        form = GenreForm()
-    return render(request, 'main/add_genre.html', {"form": form})
->>>>>>> 20f386083a52e2352362dd31f874ea07e979de87
