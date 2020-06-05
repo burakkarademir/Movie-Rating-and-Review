@@ -19,8 +19,9 @@ def home(request):
 def detail(request, id):
     movie = Movie.objects.get(movie_id=id)
     reviews = review.objects.filter(movie_id=id)
+    rds = release_dates.objects.filter(movie_id=id)
 
-    #country section
+    # country section
     ct = countries.objects.filter(movie_id=movie)
     ct_list = []
     for j in ct:
@@ -57,14 +58,29 @@ def detail(request, id):
         award_dict[award[count].award_id] = award[count].category_id
         count = count +1
 
+    # cast section
+    cast = movie_cast.objects.filter(movie_id=movie)
+    cast_list = []
+    for j in cast:
+        cast_list.append(j)
+
+    # crew section
+    crew = movie_crew.objects.filter(movie_id=movie)
+    crew_list = []
+    for j in crew:
+        crew_list.append(j)
+
     context = {
         "movie": movie,
         "reviews": reviews,
         "keywords": kw_list,
         "soundtrack": soundtracks,
         "country": ct_list,
+        "release_dates": rds,
         "genres": genre_list,
-        "awards": award_dict
+        "awards": award_dict,
+        "cast": cast_list,
+        "crew": crew_list
     }
     return render(request, 'main/details.html', context)
 
@@ -390,10 +406,10 @@ def edit_release_date(request, id):
     return render(request, 'main/edit_release_date.html', {"form": form})
 
 
-def edit_soundtrack(request, id):
-    movie = Movie.objects.get(movie_id=id)
-    soundtrackid = movie_soundtrack.objects.get(movie_id=movie)
-    soundtrack_info = soundtrack.objects.get(soundtrack_name=soundtrackid.soundtrack_id)
+def edit_soundtrack(request, movie_id, key_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    # soundtrackid = movie_soundtrack.objects.get(movie_id=movie)
+    soundtrack_info = soundtrack.objects.get(soundtrack_id=key_id)
     if request.method == "POST":
         form = SoundtrackForm(request.POST or None, instance=soundtrack_info)
 
@@ -406,17 +422,17 @@ def edit_soundtrack(request, id):
     return render(request, 'main/edit_soundtrack.html', {"form": form})
 
 
-def edit_country(request, id):
-    movie = Movie.objects.get(movie_id=id)
-    cid = countries.objects.get(movie_id=movie)
-    cinfo = country_name.objects.get(country_name=cid.country_id)
+def edit_country(request, movie_id, key_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    # cid = countries.objects.get(movie_id=movie)
+    cinfo = country_name.objects.get(country_id=key_id)
     if request.method == "POST":
         form = CountryNameForm(request.POST or None, instance=cinfo)
 
         if form.is_valid():
             data = form.save(commit=False)
             data.save()
-            return redirect("main:details", id)
+            return redirect("main:details", movie_id)
     else:
         form = CountryNameForm(instance=cinfo)
     return render(request, 'main/edit_country.html', {"form": form})
@@ -501,5 +517,19 @@ def delete_soundtrack(request, movie_id, soundtrack_id):
     movie = Movie.objects.get(movie_id=movie_id)
     soundtrack_info = soundtrack.objects.get(soundtrack_id=soundtrack_id)
     soundtrack_info.delete()
+    return redirect("main:home")
+
+
+def delete_movie_cast(request, movie_id, character_id, person_id, gender_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    cast = movie_cast.objects.get(movie_id=movie, character_id=character_id, person_id=person_id, gender_id=gender_id)
+    cast.delete()
+    return redirect("main:home")
+
+
+def delete_movie_crew(request, movie_id, person_id, department_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    crew = movie_crew.objects.get(movie_id=movie, person_id=person_id, department_id=department_id)
+    crew.delete()
     return redirect("main:home")
     

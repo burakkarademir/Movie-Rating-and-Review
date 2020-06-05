@@ -17,8 +17,10 @@
                         {{ movie.title }}
                     </h3>
                     <br>
+                    {% if user.is_superuser %}
                     <a href="{% url 'main:edit_movie' movie.movie_id %}" class="btn btn-warning">Edit Movie</a>
                     <a href="{% url 'main:delete_movie' movie.movie_id %}" class="btn btn-danger">Delete Movie</a>
+                    {% endif %}
                     <br>
                     <br>
                     <h5>Summary</h5>
@@ -28,6 +30,14 @@
                     <h5>Runtime: {{ movie.runtime }} hrs</h5>
                     <h5>Language: {{ movie.language }}</h5>
                     <h5>Rating: {{ movie.avg_rank }}</h5>
+                    <br>
+                    <h6>Release Dates: </h6>
+                    {% for rd in release_dates %}
+                    <li>{{ rd.release_date }} <i>--{{ rd.country }}</i></li>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:edit_release_date' movie.movie_id %}">Edit</a>
+                    {% endif %}
+                    {% endfor %}
                     <br>
                     <h6>Keywords: </h6>
                     {% for keyword in keywords %}
@@ -53,6 +63,44 @@
                     {% if user.is_superuser %}
                     <a href="{% url 'main:edit_award_and_category' movie.movie_id k.award_id v.category_id %}">Edit</a>
                     <a href="{% url 'main:delete_award_and_category' movie.movie_id k.award_id v.category_id %}">Delete</a>
+                    {% endif %}
+                    {% endfor %}
+                    <br>
+                    <h6>Country: </h6>
+                    {% for c in country %}
+                    <li>{{ c.country_name }}</li>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:edit_country' movie.movie_id c.country_id %}">Edit</a>
+                    {% endif %}
+                    {% endfor %}
+                    <br>
+                    <h6>Movie Cast: </h6>
+                    {% for c in cast %}
+                    <li>Character name: {{ c.character_id.character_name }}</li>
+                    <li>Character role: {{ c.character_id.character_role }}</li>
+                    <li>Character order: {{ c.character_id.character_order }}</li>
+                    <li>Person name: {{ c.person_id.person_name }}</li>
+                    <li>Person lastname: {{ c.person_id.person_lastname }}</li>
+                    <li>Person birthdate: {{ c.person_id.person_birthdate }}</li>
+                    <li>Person deathdate: {{ c.person_id.person_deathdate }}</li>
+                    <li>Gender: {{ c.gender_id.gender }}</li>
+                    <br>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:delete_movie_cast' movie.movie_id c.character_id.character_id c.person_id.person_id c.gender_id.gender_id  %}">Delete</a>
+                    {% endif %}
+                    {% endfor %}
+                    <br>
+                    <h6>Movie Crew: </h6>
+                    {% for c in crew %}
+                    <li>Person name: {{ c.person_id.person_name }}</li>
+                    <li>Person lastname: {{ c.person_id.person_lastname }}</li>
+                    <li>Person birthdate: {{ c.person_id.person_birthdate }}</li>
+                    <li>Person deathdate: {{ c.person_id.person_deathdate }}</li>
+                    <li>Department: {{ c.department_id.department_name }}</li>
+                    <li>Person deathdate: {{ c.department_id.job }}</li>
+                    <br>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:delete_movie_crew' movie.movie_id c.person_id.person_id c.department_id.department_id %}">Delete</a>
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -95,7 +143,7 @@
             <ul>
                 {% for soundtrack in soundtrack %}
                     <li>{{ soundtrack.soundtrack_name }}</li>
-                    <a href="{% url 'main:edit_soundtrack' movie.movie_id %}" class="btn btn-warning">Edit Soundtrack</a>
+                    <a href="{% url 'main:edit_soundtrack' movie.movie_id soundtrack.soundtrack_id %}" class="btn btn-warning">Edit Soundtrack</a>
                     <a href="{% url 'main:delete_soundtrack' movie.movie_id soundtrack.soundtrack_id%}" class="btn btn-warning">Delete Soundtrack</a>
                 {% endfor %}
             </ul>
