@@ -7,12 +7,12 @@
     <div class="container">
         <div class="card">
             <div class="card-content">
-                <h3 class="text-center">Add Awards</h3>
+                <h3 class="text-center">Edit Awards</h3>
                 <form action="" method="POST">
                     {% csrf_token %}
                     {{ form|crispy }}
                     {{ form2|crispy }}
-                    <input type="submit" value="Add Awards">
+                    <input type="submit" value="Edit Awards">
                 </form>
             </div>
         </div>

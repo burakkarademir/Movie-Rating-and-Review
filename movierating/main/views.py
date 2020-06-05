@@ -35,11 +35,28 @@ def detail(request, id):
         kwx = i.keyword_id
         kw_list.append(kwx)
 
+    #soundtrack section
     soundtrack2 = movie_soundtrack.objects.filter(movie_id=movie)
     soundtracks = []
     for i in soundtrack2:
         soundtrack_name=i.soundtrack_id
         soundtracks.append(soundtrack_name)
+
+    # genre section
+    genre = movie_genre.objects.filter(movie_id=movie)
+    genre_list = []
+    for i in genre:
+        kwx = i.genre_id
+        genre_list.append(kwx)
+
+
+    # award section
+    award = awards.objects.filter(movie_id=movie)
+    award_dict = {}
+    count = 0
+    for i in award:
+        award_dict[award[count].award_id] = award[count].category_id
+        count = count +1
 
     context = {
         "movie": movie,
@@ -48,6 +65,8 @@ def detail(request, id):
         "soundtrack": soundtracks,
         "country": ct_list,
         "release_dates": rds
+        "genres": genre_list,
+        "awards": award_dict
     }
     return render(request, 'main/details.html', context)
 
@@ -150,7 +169,7 @@ def add_soundtrack(request, id):
         if form.is_valid():
             data = form.save(commit=False)
             data.save()
-            st = soundtrack.objects.get(soundtrack_name=data.soundtrack_name)
+            st = soundtrack.objects.latest('soundtrack_id')
             ms = movie_soundtrack(soundtrack_id=st)
             ms.save()
             ms.movie_id.add(movie)
@@ -184,7 +203,7 @@ def add_country(request, id):
         if form.is_valid():
             data = form.save(commit=False)
             data.save()
-            ct = country_name.objects.get(country_name=data.country_name)
+            ct = country_name.objects.latest('country_id')
             cts = countries(country_id=ct)
             cts.save()
             cts.movie_id.add(movie)
@@ -252,7 +271,7 @@ def add_production(request, id):
         if form.is_valid():
             data = form.save(commit=False)
             data.save()
-            production_object = production.objects.get(production_name=data.production_name)
+            production_object = production.objects.latest('production_id')
             company = production_company(production_id=production_object)
             company.save()
             company.movie_id.add(movie)
@@ -273,8 +292,8 @@ def add_award_and_category(request, id):
             data2 = form2.save(commit=False)
             data2.save()
             data.save()
-            award = award_name.objects.get(award_name=data.award_name)
-            category = category_name.objects.get(category_name=data2.category_name)
+            award = award_name.objects.latest('award_id')
+            category = category_name.objects.latest('category_id')
             awardss = awards(award_id=award ,category_id=category)
             awardss.save()
             awardss.movie_id.add(movie)
@@ -300,9 +319,9 @@ def add_movie_cast(request, id):
             data3.save()
             data2.save()
             data.save()
-            person_info = person.objects.get(person_name=data.person_name)
-            character_info = character_role.objects.get(role=data2.role)
-            gender_info = gender.objects.get(gender=data3.gender)
+            person_info = person.objects.latest('person_id')
+            character_info = character_role.objects.latest('character_id')
+            gender_info = gender.objects.latest('gender_id')
             cast_detail = movie_cast(person_id=person_info, gender_id=gender_info, character_id=character_info)
             cast_detail.save()
             cast_detail.movie_id.add(movie)
@@ -312,7 +331,7 @@ def add_movie_cast(request, id):
         form2 = RoleForm()
         form3 = GenderForm()
 
-    return render(request, 'main/add_award_category.html', {"form": form, "form2": form2, "form3": form3})
+    return render(request, 'main/add_movie_cast.html', {"form": form, "form2": form2, "form3": form3})
 
 
 def add_movie_crew(request, id):
@@ -326,8 +345,8 @@ def add_movie_crew(request, id):
             data2 = form2.save(commit=False)
             data2.save()
             data.save()
-            person_info = person.objects.get(person_name=data.person_name)
-            department_info = departments.objects.get(department_name=data2.department_name)
+            person_info = person.objects.latest('person_id')
+            department_info = departments.objects.latest('department_id')
             crew_info = movie_crew(department_id=department_info, person_id=person_info)
             crew_info.save()
             crew_info.movie_id.add(movie)
@@ -412,7 +431,7 @@ def add_genre(request, id):
         if form.is_valid():
             data = form.save(commit=False)
             data.save()
-            kw = genres.objects.get(genre=data.genre)
+            kw = genres.objects.latest('genre_id')
             mk = movie_genre(genre_id=kw)
             mk.save()
             mk.movie_id.add(movie)
@@ -420,3 +439,69 @@ def add_genre(request, id):
     else:
         form = GenreForm()
     return render(request, 'main/add_genre.html', {"form": form})
+
+
+def edit_genre(request, movie_id, key_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    # kid = movie_keywords.objects.get(movie_id=movie)
+    genre = genres.objects.get(genre_id=key_id)
+    if request.method == "POST":
+        form = GenreForm(request.POST or None, instance=genre)
+
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.save()
+            return redirect("main:details", movie_id)
+    else:
+        form = GenreForm(instance=genre)
+    return render(request, 'main/edit_genre.html', {"form": form})
+
+
+def edit_award_and_category(request, movie_id, award_id, category_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    # kid = movie_keywords.objects.get(movie_id=movie)
+    awardd = award_name.objects.get(award_id=award_id)
+    categry = category_name.objects.get(category_id=category_id)
+    if request.method == "POST":
+        form = AwardForm(request.POST or None, instance=awardd)
+        form2 = AwardCategoryForm(request.POST or None, instance=categry)
+
+        if form.is_valid():
+            data = form.save(commit=False)
+            data2 = form2.save(commit=False)
+            data2.save()
+            data.save()
+            return redirect("main:details", movie_id)
+    else:
+        form = AwardForm(instance=awardd)
+        form2 = AwardCategoryForm(instance=categry)
+    return render(request, 'main/edit_award_and_category.html', {"form": form, "form2": form2})
+
+
+def delete_keywords(request, id, key_id):
+    movie = Movie.objects.get(movie_id=id)
+    keyword = movie_keywords.objects.get(movie_id=movie, keyword_id=key_id)
+    keyword.delete()
+    return redirect("main:home")
+
+
+def delete_award_and_category(request, movie_id, award_id, category_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    awardd = awards.objects.get(movie_id=movie, award_id=award_id, category_id=category_id)
+    awardd.delete()
+    return redirect("main:home")
+
+
+def delete_genre(request, movie_id, key_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    genre = genres.objects.get(genre_id=key_id)
+    genre.delete()
+    return redirect("main:home")
+
+
+def delete_soundtrack(request, movie_id, soundtrack_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    soundtrack_info = soundtrack.objects.get(soundtrack_id=soundtrack_id)
+    soundtrack_info.delete()
+    return redirect("main:home")
+    
