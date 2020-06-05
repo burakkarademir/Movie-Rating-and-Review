@@ -34,6 +34,7 @@ def detail(request, id):
         kwx = i.keyword_id
         kw_list.append(kwx)
 
+    #soundtrack section
     soundtrack2 = movie_soundtrack.objects.filter(movie_id=movie)
     soundtracks = []
     for i in soundtrack2:
@@ -47,13 +48,23 @@ def detail(request, id):
         kwx = i.genre_id
         genre_list.append(kwx)
 
+
+    # award section
+    award = awards.objects.filter(movie_id=movie)
+    award_dict = {}
+    count = 0
+    for i in award:
+        award_dict[award[count].award_id] = award[count].category_id
+        count = count +1
+
     context = {
         "movie": movie,
         "reviews": reviews,
         "keywords": kw_list,
         "soundtrack": soundtracks,
         "country": ct_list,
-        "genres": genre_list
+        "genres": genre_list,
+        "awards": award_dict
     }
     return render(request, 'main/details.html', context)
 
@@ -318,7 +329,7 @@ def add_movie_cast(request, id):
         form2 = RoleForm()
         form3 = GenderForm()
 
-    return render(request, 'main/add_award_category.html', {"form": form, "form2": form2, "form3": form3})
+    return render(request, 'main/add_movie_cast.html', {"form": form, "form2": form2, "form3": form3})
 
 
 def add_movie_crew(request, id):
@@ -442,3 +453,24 @@ def edit_genre(request, movie_id, key_id):
     else:
         form = GenreForm(instance=genre)
     return render(request, 'main/edit_genre.html', {"form": form})
+
+
+def edit_award_and_category(request, movie_id, award_id, category_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    # kid = movie_keywords.objects.get(movie_id=movie)
+    awardd = award_name.objects.get(award_id=award_id)
+    categry = category_name.objects.get(category_id=category_id)
+    if request.method == "POST":
+        form = AwardForm(request.POST or None, instance=awardd)
+        form2 = AwardCategoryForm(request.POST or None, instance=categry)
+
+        if form.is_valid():
+            data = form.save(commit=False)
+            data2 = form2.save(commit=False)
+            data2.save()
+            data.save()
+            return redirect("main:details", movie_id)
+    else:
+        form = AwardForm(instance=awardd)
+        form2 = AwardCategoryForm(instance=categry)
+    return render(request, 'main/edit_award_and_category.html', {"form": form, "form2": form2})

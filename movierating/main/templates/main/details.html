@@ -36,11 +36,18 @@
                     <a href="{% url 'main:edit_keywords' movie.movie_id keyword.keyword_id %}">Edit</a>
                     {% endif %}
                     {% endfor %}
-                    <h6>Genres: </h6>
+                    <h7>Genres: </h7>
                     {% for genre in genres %}
                     <li>{{ genre.genre }}</li>
                     {% if user.is_superuser %}
                     <a href="{% url 'main:edit_genre' movie.movie_id genre.genre_id %}">Edit</a>
+                    {% endif %}
+                    {% endfor %}
+                    <h8>Awards: </h8>
+                    {% for k, v in awards.items %}
+                    <li>{{ k.award_name }}: {{ v.category_name }}</li>
+                    {% if user.is_superuser %}
+                    <a href="{% url 'main:edit_award_and_category' movie.movie_id k.award_id v.category_id %}">Edit</a>
                     {% endif %}
                     {% endfor %}
                 </div>

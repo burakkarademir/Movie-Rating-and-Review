@@ -29,5 +29,6 @@ urlpatterns = [
     path('editkeywords/<int:movie_id>/<int:key_id>/', views.edit_keywords, name="edit_keywords"),
     path('editcountry/<int:id>/', views.edit_country, name="edit_country"),
     path('editgenre/<int:movie_id>/<int:key_id>/', views.edit_genre, name="edit_genre"),
+    path('editawardandcategory/<int:movie_id>/<int:award_id>/<int:category_id>/', views.edit_award_and_category, name="edit_award_and_category"),
     # path('add_info/<int:id>/', views.addInfo, name="add_info")
 ]
