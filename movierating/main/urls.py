@@ -15,6 +15,7 @@ urlpatterns = [
     path('addawardandcategory/<int:id>/', views.add_award_and_category, name="add_award_and_category"),
     path('addmoviecast/<int:id>/', views.add_movie_cast, name="add_movie_cast"),
     path('addmoviecrew/<int:id>/', views.add_movie_crew, name="add_movie_crew"),
+    path('addgenre/<int:id>/', views.add_genre, name="add_genre"),
     path('editmovie/<int:id>/', views.edit_movie, name="edit_movie"),
     path('deletemovie/<int:id>/', views.delete_movie, name="delete_movie"),
     path('editreleasedate/<int:id>/', views.edit_release_date, name="edit_release_date"),
