@@ -495,3 +495,11 @@ def delete_genre(request, movie_id, key_id):
     genre = genres.objects.get(genre_id=key_id)
     genre.delete()
     return redirect("main:home")
+
+
+def delete_soundtrack(request, movie_id, soundtrack_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    soundtrack_info = soundtrack.objects.get(soundtrack_id=soundtrack_id)
+    soundtrack_info.delete()
+    return redirect("main:home")
+    

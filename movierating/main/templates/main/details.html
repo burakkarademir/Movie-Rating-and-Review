@@ -37,7 +37,8 @@
                     <a href="{% url 'main:delete_keywords' movie.movie_id keyword.keyword_id %}">Delete</a>
                     {% endif %}
                     {% endfor %}
-                    <h7>Genres: </h7>
+                    <br>
+                    <h6>Genres: </h6>
                     {% for genre in genres %}
                     <li>{{ genre.genre }}</li>
                     {% if user.is_superuser %}
@@ -45,7 +46,8 @@
                     <a href="{% url 'main:delete_genre' movie.movie_id genre.genre_id %}">Delete</a>
                     {% endif %}
                     {% endfor %}
-                    <h8>Awards: </h8>
+                    <br>
+                    <h6>Awards: </h6>
                     {% for k, v in awards.items %}
                     <li>{{ k.award_name }}: {{ v.category_name }}</li>
                     {% if user.is_superuser %}
@@ -94,6 +96,7 @@
                 {% for soundtrack in soundtrack %}
                     <li>{{ soundtrack.soundtrack_name }}</li>
                     <a href="{% url 'main:edit_soundtrack' movie.movie_id %}" class="btn btn-warning">Edit Soundtrack</a>
+                    <a href="{% url 'main:delete_soundtrack' movie.movie_id soundtrack.soundtrack_id%}" class="btn btn-warning">Delete Soundtrack</a>
                 {% endfor %}
             </ul>
         </div>
