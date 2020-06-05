@@ -38,6 +38,9 @@ urlpatterns = [
     path('deletekeywords/<int:id>/<int:key_id>/', views.delete_keywords, name="delete_keywords"),
     path('deleteawardandcategory/<int:movie_id>/<int:award_id>/<int:category_id>/', views.delete_award_and_category, name="delete_award_and_category"),
     path('deletegenre/<int:movie_id>/<int:key_id>/', views.delete_genre, name="delete_genre"),
+    path('deletecountry/<int:movie_id>/<int:key_id>/', views.delete_country, name="delete_country"),
+    path('deleteproduction/<int:movie_id>/<int:key_id>/', views.delete_production, name="delete_production"),
+    path('deletereleasedates/<int:movie_id>/', views.delete_release_date, name="delete_release_date"),
     path('deletesoundtrack/<int:movie_id>/<int:soundtrack_id>/', views.delete_soundtrack, name="delete_soundtrack"),
     # path('add_info/<int:id>/', views.addInfo, name="add_info")
 ]

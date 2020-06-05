@@ -36,6 +36,7 @@
                     <li>{{ rd.release_date }} <i>--{{ rd.country }}</i></li>
                     {% if user.is_superuser %}
                         <a href="{% url 'main:edit_release_date' movie.movie_id %}">Edit</a>
+                        <a href="{% url 'main:delete_release_date' movie.movie_id %}" onclick="return confirm('Are you sure you want to delete this entry?');">Delete</a>
                     {% endif %}
                     {% endfor %}
                     <br>
@@ -71,6 +72,15 @@
                     <li>{{ c.country_name }}</li>
                     {% if user.is_superuser %}
                         <a href="{% url 'main:edit_country' movie.movie_id c.country_id %}">Edit</a>
+                        <a href="{% url 'main:delete_country' movie.movie_id c.country_id %}" onclick="return confirm('Are you sure you want to delete this entry?');">Delete</a>
+                    {% endif %}
+                    {% endfor %}
+                    <br>
+                    <h6>Production: </h6>
+                    {% for pr in productions %}
+                    <li>{{ pr.production_name }}</li>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:delete_production' movie.movie_id pr.production_id %}" onclick="return confirm('Are you sure you want to delete this entry?');">Delete</a>
                     {% endif %}
                     {% endfor %}
                 </div>

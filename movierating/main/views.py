@@ -28,6 +28,13 @@ def detail(request, id):
         ctx = j.country_id
         ct_list.append(ctx)
     
+    # production section
+    pd = production_company.objects.filter(movie_id=movie)
+    pd_list = []
+    for l in pd:
+        pdx = l.production_id
+        pd_list.append(pdx)
+    
     # key words section
     kw = movie_keywords.objects.filter(movie_id=movie)
     kw_list = []
@@ -66,6 +73,7 @@ def detail(request, id):
         "country": ct_list,
         "release_dates": rds,
         "genres": genre_list,
+        "productions": pd_list,
         "awards": award_dict
     }
     return render(request, 'main/details.html', context)
@@ -504,4 +512,23 @@ def delete_soundtrack(request, movie_id, soundtrack_id):
     soundtrack_info = soundtrack.objects.get(soundtrack_id=soundtrack_id)
     soundtrack_info.delete()
     return redirect("main:home")
-    
+
+
+def delete_country(request, movie_id, key_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    ct = country_name.objects.get(country_id=key_id)
+    ct.delete()
+    return redirect("main:home")
+
+
+def delete_release_date(request, movie_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    rd = release_dates.objects.get(movie_id=movie)
+    rd.delete()
+    return redirect("main:home")
+
+def delete_production(request, movie_id, key_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    pd = production.objects.get(production_id=key_id)
+    pd.delete()
+    return redirect("main:home")
