@@ -53,7 +53,7 @@ class gender(models.Model):
 
 
 class character_role(models.Model):
-    character_id = models.AutoField(primary_key=True, default='1')
+    character_id = models.AutoField(primary_key=True)
     role = models.CharField(max_length=300, default='')
     character_name = models.CharField(max_length=300, default='')
     character_order = models.IntegerField(null=True)
