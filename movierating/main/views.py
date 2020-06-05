@@ -175,6 +175,9 @@ def add_release_date(request, id):
 
         if form.is_valid():
             data = form.save(commit=False)
+            if release_dates.objects.filter(movie_id=movie, country=data.country, release_date=data.release_date).exists() is True:
+                error = "This entry already exists! Try again with a new one."
+                return render(request, 'main/add_release_date.html', {"error": error, "form": form})
             data.save()
             data.movie_id.add(movie)
             return redirect("main:home")
@@ -207,6 +210,13 @@ def add_keywords(request, id):
         form = KeywordsForm(request.POST or None)
         if form.is_valid():
             data = form.save(commit=False)
+            y = movie_keywords.objects.filter(movie_id=movie)
+            y_value = False
+            for j in y:
+                yx = j.keyword_id
+                if (yx.keyword_name == data.keyword_name):
+                    error = "This entry already exists! Try again with a new one."
+                    return render(request, 'main/add_keywords.html', {"error": error, "form": form})
             data.save()
             kw = keywords.objects.latest('keyword_id')
             mk = movie_keywords(keyword_id=kw)
@@ -224,6 +234,13 @@ def add_country(request, id):
         form = CountryNameForm(request.POST or None)
         if form.is_valid():
             data = form.save(commit=False)
+            y = countries.objects.filter(movie_id=movie)
+            y_value = False
+            for j in y:
+                yx = j.country_id
+                if (yx.country_name == data.country_name):
+                    error = "This entry already exists! Try again with a new one."
+                    return render(request, 'main/add_country.html', {"error": error, "form": form})
             data.save()
             ct = country_name.objects.latest('country_id')
             cts = countries(country_id=ct)
@@ -292,6 +309,13 @@ def add_production(request, id):
 
         if form.is_valid():
             data = form.save(commit=False)
+            y = production_company.objects.filter(movie_id=movie)
+            y_value = False
+            for j in y:
+                yx = j.production_id
+                if (yx.production_name == data.production_name):
+                    error = "This entry already exists! Try again with a new one."
+                    return render(request, 'main/add_production.html', {"error": error, "form": form})
             data.save()
             production_object = production.objects.latest('production_id')
             company = production_company(production_id=production_object)
@@ -312,6 +336,9 @@ def add_award_and_category(request, id):
         if form.is_valid() and form2.is_valid():
             data = form.save(commit=False)
             data2 = form2.save(commit=False)
+            if (award_name.objects.filter(award_name=data.award_name, year=data.year).exists() and category_name.objects.filter(category_name=data2.category_name).exists()) is True:
+                error = "This entry already exists! Try again with a new one."
+                return render(request, 'main/add_award_category.html', {"error": error, "form": form, "form2": form2})
             data2.save()
             data.save()
             award = award_name.objects.latest('award_id')
@@ -452,6 +479,13 @@ def add_genre(request, id):
         form = GenreForm(request.POST or None)
         if form.is_valid():
             data = form.save(commit=False)
+            y = movie_genre.objects.filter(movie_id=movie)
+            y_value = False
+            for j in y:
+                yx = j.genre_id
+                if (yx.genre == data.genre):
+                    error = "This entry already exists! Try again with a new one."
+                    return render(request, 'main/add_genre.html', {"error": error, "form": form})
             data.save()
             kw = genres.objects.latest('genre_id')
             mk = movie_genre(genre_id=kw)
@@ -497,7 +531,7 @@ def edit_award_and_category(request, movie_id, award_id, category_id):
     else:
         form = AwardForm(instance=awardd)
         form2 = AwardCategoryForm(instance=categry)
-    return render(request, 'main/edit_award_and_category.html', {"form": form, "form2": form2})
+    return render(request, 'main/edit_award_category.html', {"form": form, "form2": form2})
 
 
 def delete_keywords(request, id, key_id):

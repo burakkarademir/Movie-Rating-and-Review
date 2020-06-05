@@ -20,6 +20,18 @@
                     {% if user.is_superuser %}
                     <a href="{% url 'main:edit_movie' movie.movie_id %}" class="btn btn-warning">Edit Movie</a>
                     <a href="{% url 'main:delete_movie' movie.movie_id %}" class="btn btn-danger">Delete Movie</a>
+                    <br>
+                    <br>
+                    <a href="{% url 'main:add_release_date' movie.movie_id %}" class="btn btn-warning">Add Release Date</a>
+                    <a href="{% url 'main:add_keywords' movie.movie_id %}" class="btn btn-warning">Add Keywords</a>
+                    <a href="{% url 'main:add_genre' movie.movie_id %}" class="btn btn-warning">Add Genre</a>
+                    <a href="{% url 'main:add_award_and_category' movie.movie_id %}" class="btn btn-warning">Add Awards</a>
+                    <a href="{% url 'main:add_country' movie.movie_id %}" class="btn btn-warning">Add Country</a>
+                    <br>
+                    <br>
+                    <a href="{% url 'main:add_production' movie.movie_id %}" class="btn btn-warning">Add Productions</a>
+                    <a href="{% url 'main:add_movie_cast' movie.movie_id %}" class="btn btn-warning">Add Movie Cast</a>
+                    <a href="{% url 'main:add_movie_crew' movie.movie_id %}" class="btn btn-warning">Add Movie Crew</a>
                     {% endif %}
                     <br>
                     <br>
@@ -86,15 +98,13 @@
                     <br>
                     <h6>Movie Cast: </h6>
                     {% for c in cast %}
-                    <li>Character name: {{ c.character_id.character_name }}</li>
-                    <li>Character role: {{ c.character_id.character_role }}</li>
-                    <li>Character order: {{ c.character_id.character_order }}</li>
-                    <li>Person name: {{ c.person_id.person_name }}</li>
-                    <li>Person lastname: {{ c.person_id.person_lastname }}</li>
-                    <li>Person birthdate: {{ c.person_id.person_birthdate }}</li>
-                    <li>Person deathdate: {{ c.person_id.person_deathdate }}</li>
-                    <li>Gender: {{ c.gender_id.gender }}</li>
-                    <br>
+                    <p>--{{ c.person_id.person_name }} {{c.person_id.person_lastname}},
+                        Character name: {{ c.character_id.character_name }}, 
+                        Character Role: {{ c.character_id.character_role }}, 
+                        Character order:  {{ c.character_id.character_order }}, 
+                        Birthdate: {{ c.person_id.person_birthdate }}, 
+                        Gender: {{ c.gender_id.gender }} 
+                    </p>
                     {% if user.is_superuser %}
                         <a href="{% url 'main:delete_movie_cast' movie.movie_id c.character_id.character_id c.person_id.person_id c.gender_id.gender_id  %}">Delete</a>
                     {% endif %}
@@ -102,13 +112,11 @@
                     <br>
                     <h6>Movie Crew: </h6>
                     {% for c in crew %}
-                    <li>Person name: {{ c.person_id.person_name }}</li>
-                    <li>Person lastname: {{ c.person_id.person_lastname }}</li>
-                    <li>Person birthdate: {{ c.person_id.person_birthdate }}</li>
-                    <li>Person deathdate: {{ c.person_id.person_deathdate }}</li>
-                    <li>Department: {{ c.department_id.department_name }}</li>
-                    <li>Person deathdate: {{ c.department_id.job }}</li>
-                    <br>
+                    <p>--{{ c.person_id.person_name }} {{c.person_id.person_lastname}}, 
+                        Birthdate: {{ c.person_id.person_birthdate }}, 
+                        Department: {{ c.department_id.department_name }}, 
+                        Job: {{ c.department_id.job }} 
+                    </p>
                     {% if user.is_superuser %}
                         <a href="{% url 'main:delete_movie_crew' movie.movie_id c.person_id.person_id c.department_id.department_id %}">Delete</a>
                     {% endif %}

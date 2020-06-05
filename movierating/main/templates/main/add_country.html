@@ -11,6 +11,9 @@
             <form action="" method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}
+                {% if error %}
+                    <strong style="color: red;">{{ error }}</strong>
+                {% endif %}
                 <input type="submit" value="Add Country">
             </form>
         </div>

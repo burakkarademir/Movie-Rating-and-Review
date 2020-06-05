@@ -12,6 +12,9 @@
                     {% csrf_token %}
                     {{ form|crispy }}
                     {{ form2|crispy }}
+                    {% if error %}
+                    <strong style="color: red;">{{ error }}</strong>
+                    {% endif %}
                     <input type="submit" value="Add Awards">
                 </form>
             </div>
