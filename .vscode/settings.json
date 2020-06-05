@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\yonas\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    "python.pythonPath": "C:\\Users\\yonas\\Anaconda3\\python.exe",
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true
