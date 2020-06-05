@@ -99,7 +99,7 @@ def addRating(request, id):
             if form.is_valid():
                 data = form.save(commit=False)
                 data.user_id = request.user
-                if ratings.objects.filter(user_id=request.user).exists() is False:
+                if ratings.objects.filter(user_id=request.user, movie_id=movie).exists() is False:
                     if (data.rating <= 10) or (data.rating > 0):
                         data.save()
                         data.movie_id.add(movie)
@@ -165,7 +165,7 @@ def add_keywords(request, id):
         if form.is_valid():
             data = form.save(commit=False)
             data.save()
-            kw = keywords.objects.get(keyword_name=data.keyword_name)
+            kw = keywords.objects.latest('keyword_id')
             mk = movie_keywords(keyword_id=kw)
             mk.save()
             mk.movie_id.add(movie)
