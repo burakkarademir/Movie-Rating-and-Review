@@ -474,3 +474,24 @@ def edit_award_and_category(request, movie_id, award_id, category_id):
         form = AwardForm(instance=awardd)
         form2 = AwardCategoryForm(instance=categry)
     return render(request, 'main/edit_award_and_category.html', {"form": form, "form2": form2})
+
+
+def delete_keywords(request, id, key_id):
+    movie = Movie.objects.get(movie_id=id)
+    keyword = movie_keywords.objects.get(movie_id=movie, keyword_id=key_id)
+    keyword.delete()
+    return redirect("main:home")
+
+
+def delete_award_and_category(request, movie_id, award_id, category_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    awardd = awards.objects.get(movie_id=movie, award_id=award_id, category_id=category_id)
+    awardd.delete()
+    return redirect("main:home")
+
+
+def delete_genre(request, movie_id, key_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    genre = genres.objects.get(genre_id=key_id)
+    genre.delete()
+    return redirect("main:home")

@@ -30,5 +30,8 @@ urlpatterns = [
     path('editcountry/<int:id>/', views.edit_country, name="edit_country"),
     path('editgenre/<int:movie_id>/<int:key_id>/', views.edit_genre, name="edit_genre"),
     path('editawardandcategory/<int:movie_id>/<int:award_id>/<int:category_id>/', views.edit_award_and_category, name="edit_award_and_category"),
+    path('deletekeywords/<int:id>/<int:key_id>/', views.delete_keywords, name="delete_keywords"),
+    path('deleteawardandcategory/<int:movie_id>/<int:award_id>/<int:category_id>/', views.delete_award_and_category, name="delete_award_and_category"),
+    path('deletegenre/<int:movie_id>/<int:key_id>/', views.delete_genre, name="delete_genre"),
     # path('add_info/<int:id>/', views.addInfo, name="add_info")
 ]
