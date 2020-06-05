@@ -19,7 +19,7 @@ urlpatterns = [
     path('editmovie/<int:id>/', views.edit_movie, name="edit_movie"),
     path('deletemovie/<int:id>/', views.delete_movie, name="delete_movie"),
     path('editreleasedate/<int:id>/', views.edit_release_date, name="edit_release_date"),
-    path('editsoundtrack/<int:id>/', views.edit_soundtrack, name="edit_soundtrack"),
+    path('editsoundtrack/<int:movie_id>/<int:key_id>/', views.edit_soundtrack, name="edit_soundtrack"),
     path('addsoundtrack/<int:id>/', views.add_soundtrack, name="add_soundtrack"),
     path('addkeywords/<int:id>/', views.add_keywords, name="add_keywords"),
     path('addcountry/<int:id>/', views.add_country, name="add_country"),
@@ -27,6 +27,6 @@ urlpatterns = [
     path('editreview/<int:movie_id>/<int:review_id>/', views.edit_review, name="edit_review"),
     path('deletereview/<int:movie_id>/<int:review_id>/', views.delete_review, name="delete_review"),
     path('editkeywords/<int:movie_id>/<int:key_id>/', views.edit_keywords, name="edit_keywords"),
-    path('editcountry/<int:id>/', views.edit_country, name="edit_country")
+    path('editcountry/<int:movie_id>/<int:key_id>/', views.edit_country, name="edit_country")
     # path('add_info/<int:id>/', views.addInfo, name="add_info")
 ]
