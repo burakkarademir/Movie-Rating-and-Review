@@ -64,7 +64,7 @@ def detail(request, id):
         "keywords": kw_list,
         "soundtrack": soundtracks,
         "country": ct_list,
-        "release_dates": rds
+        "release_dates": rds,
         "genres": genre_list,
         "awards": award_dict
     }
