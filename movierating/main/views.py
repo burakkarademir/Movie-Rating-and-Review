@@ -216,3 +216,19 @@ def delete_review(request, movie_id, review_id):
         return redirect("main:details", movie_id)
     else:
         return redirect("main:home")
+
+
+def edit_keywords(request, id):
+    movie = Movie.objects.get(movie_id=id)
+    kid = movie_keywords.objects.get(movie_id=movie)
+    kinfo = keywords.objects.get(keyword_name=kid.keyword_id)
+    if request.method == "POST":
+        form = KeywordsForm(request.POST or None, instance=kinfo)
+
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.save()
+            return redirect("main:details", id)
+    else:
+        form = KeywordsForm(instance=kinfo)
+    return render(request, 'main/edit_kewords.html', {"form": form})
