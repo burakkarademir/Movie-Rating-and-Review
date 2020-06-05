@@ -180,7 +180,7 @@ def add_release_date(request, id):
                 return render(request, 'main/add_release_date.html', {"error": error, "form": form})
             data.save()
             data.movie_id.add(movie)
-            return redirect("main:home")
+            return redirect("main:details", id)
     else:
         form = ReleaseDateForm()
     return render(request, 'main/add_release_date.html', {"form": form})
@@ -198,7 +198,7 @@ def add_soundtrack(request, id):
             ms = movie_soundtrack(soundtrack_id=st)
             ms.save()
             ms.movie_id.add(movie)
-            return redirect("main:home")
+            return redirect("main:details", id)
     else:
         form = SoundtrackForm()
     return render(request, 'main/add_soundtrack.html', {"form": form})
@@ -222,7 +222,7 @@ def add_keywords(request, id):
             mk = movie_keywords(keyword_id=kw)
             mk.save()
             mk.movie_id.add(movie)
-            return redirect("main:home")
+            return redirect("main:details", id)
     else:
         form = KeywordsForm()
     return render(request, 'main/add_keywords.html', {"form": form})
@@ -246,7 +246,7 @@ def add_country(request, id):
             cts = countries(country_id=ct)
             cts.save()
             cts.movie_id.add(movie)
-            return redirect("main:home")
+            return redirect("main:details", id)
     else:
         form = CountryNameForm()
     return render(request, 'main/add_country.html', {"form": form})
@@ -321,7 +321,7 @@ def add_production(request, id):
             company = production_company(production_id=production_object)
             company.save()
             company.movie_id.add(movie)
-            return redirect("main:home")
+            return redirect("main:details", id)
     else:
         form = ProductionForm()
     return render(request, 'main/add_production.html', {"form": form})
@@ -346,7 +346,7 @@ def add_award_and_category(request, id):
             awardss = awards(award_id=award ,category_id=category)
             awardss.save()
             awardss.movie_id.add(movie)
-            return redirect("main:home")
+            return redirect("main:details", id)
     else:
         form = AwardForm()
         form2 = AwardCategoryForm()
@@ -374,7 +374,7 @@ def add_movie_cast(request, id):
             cast_detail = movie_cast(person_id=person_info, gender_id=gender_info, character_id=character_info)
             cast_detail.save()
             cast_detail.movie_id.add(movie)
-            return redirect("main:home")
+            return redirect("main:details", id)
     else:
         form = PersonForm()
         form2 = RoleForm()
@@ -399,7 +399,7 @@ def add_movie_crew(request, id):
             crew_info = movie_crew(department_id=department_info, person_id=person_info)
             crew_info.save()
             crew_info.movie_id.add(movie)
-            return redirect("main:home")
+            return redirect("main:details", id)
     else:
         form = PersonForm()
         form2 = DepartmentForm()
@@ -491,7 +491,7 @@ def add_genre(request, id):
             mk = movie_genre(genre_id=kw)
             mk.save()
             mk.movie_id.add(movie)
-            return redirect("main:home")
+            return redirect("main:details", id)
     else:
         form = GenreForm()
     return render(request, 'main/add_genre.html', {"form": form})

@@ -19,17 +19,8 @@
                             <div class="text-center">
                                 <img src="{{ movie.image }}" alt="" class="img-fluid" style="max-width:100%; max-height: 400px;">
                             </div>
-                            {% if user.is_superuser %}
-                            <div class="container-center">
-                                <a href="{% url 'main:add_country' movie.movie_id %}">Add-Info</a>
-                            </div>
-                            {% endif %}
-                            <div class="container-center">
-                                <a href="{% url 'main:details' movie.movie_id %}">More</a>
-                            </div>
-                            <div class="container-center">
-                                <a href="{% url 'main:add_rating' movie.movie_id %}">Rate</a>
-                            </div>
+                            <a href="{% url 'main:add_rating' movie.movie_id %}" class="btn btn-warning">Rate</a>
+                            <a href="{% url 'main:details' movie.movie_id %}" class="btn btn-warning">Details</a>
                         </div>
                     </div>
                 </div>
