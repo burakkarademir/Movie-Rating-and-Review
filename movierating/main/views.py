@@ -19,6 +19,13 @@ def home(request):
 def detail(request, id):
     movie = Movie.objects.get(movie_id=id)
     reviews = review.objects.filter(movie_id=id)
+
+    #country section
+    ct = countries.objects.filter(movie_id=movie)
+    ct_list = []
+    for j in ct:
+        ctx = j.country_id
+        ct_list.append(ctx)
     
     # key words section
     kw = movie_keywords.objects.filter(movie_id=movie)
@@ -37,7 +44,8 @@ def detail(request, id):
         "movie": movie,
         "reviews": reviews,
         "keywords": kw_list,
-        "soundtrack": soundtracks
+        "soundtrack": soundtracks,
+        "country": ct_list
     }
     return render(request, 'main/details.html', context)
 
@@ -218,23 +226,23 @@ def delete_review(request, movie_id, review_id):
         return redirect("main:home")
 
 
-def edit_keywords(request, id):
-    movie = Movie.objects.get(movie_id=id)
-    kid = movie_keywords.objects.get(movie_id=movie)
-    kinfo = keywords.objects.get(keyword_name=kid.keyword_id)
+def edit_keywords(request, movie_id, key_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    # kid = movie_keywords.objects.get(movie_id=movie)
+    kinfo = keywords.objects.get(keyword_id=key_id)
     if request.method == "POST":
         form = KeywordsForm(request.POST or None, instance=kinfo)
 
         if form.is_valid():
             data = form.save(commit=False)
             data.save()
-            return redirect("main:details", id)
+            return redirect("main:details", movie_id)
     else:
         form = KeywordsForm(instance=kinfo)
     return render(request, 'main/edit_keywords.html', {"form": form})
 
 
-def add_production(request, id ):
+def add_production(request, id):
     movie = Movie.objects.get(movie_id=id)
     if request.method == "POST":
         form = ProductionForm(request.POST or None)
@@ -377,3 +385,19 @@ def edit_soundtrack(request, id):
     else:
         form = SoundtrackForm(instance=soundtrack_info)
     return render(request, 'main/edit_soundtrack.html', {"form": form})
+
+
+def edit_country(request, id):
+    movie = Movie.objects.get(movie_id=id)
+    cid = countries.objects.get(movie_id=movie)
+    cinfo = country_name.objects.get(country_name=cid.country_id)
+    if request.method == "POST":
+        form = CountryNameForm(request.POST or None, instance=cinfo)
+
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.save()
+            return redirect("main:details", id)
+    else:
+        form = CountryNameForm(instance=cinfo)
+    return render(request, 'main/edit_country.html', {"form": form})

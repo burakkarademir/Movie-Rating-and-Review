@@ -33,7 +33,7 @@
                     {% for keyword in keywords %}
                     <li>{{ keyword.keyword_name }}</li>
                     {% if user.is_superuser %}
-                        <a href="{% url 'main:edit_keywords' movie.movie_id %}">Edit</a>
+                        <a href="{% url 'main:edit_keywords' movie.movie_id keyword.keyword_id %}">Edit</a>
                     {% endif %}
                     {% endfor %}
                 </div>
