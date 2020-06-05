@@ -65,6 +65,18 @@ def detail(request, id):
         award_dict[award[count].award_id] = award[count].category_id
         count = count +1
 
+    # cast section
+    cast = movie_cast.objects.filter(movie_id=movie)
+    cast_list = []
+    for j in cast:
+        cast_list.append(j)
+
+    # crew section
+    crew = movie_crew.objects.filter(movie_id=movie)
+    crew_list = []
+    for j in crew:
+        crew_list.append(j)
+
     context = {
         "movie": movie,
         "reviews": reviews,
@@ -74,7 +86,9 @@ def detail(request, id):
         "release_dates": rds,
         "genres": genre_list,
         "productions": pd_list,
-        "awards": award_dict
+        "awards": award_dict,
+        "cast": cast_list,
+        "crew": crew_list
     }
     return render(request, 'main/details.html', context)
 
@@ -532,3 +546,16 @@ def delete_production(request, movie_id, key_id):
     pd = production.objects.get(production_id=key_id)
     pd.delete()
     return redirect("main:home")
+def delete_movie_cast(request, movie_id, character_id, person_id, gender_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    cast = movie_cast.objects.get(movie_id=movie, character_id=character_id, person_id=person_id, gender_id=gender_id)
+    cast.delete()
+    return redirect("main:home")
+
+
+def delete_movie_crew(request, movie_id, person_id, department_id):
+    movie = Movie.objects.get(movie_id=movie_id)
+    crew = movie_crew.objects.get(movie_id=movie, person_id=person_id, department_id=department_id)
+    crew.delete()
+    return redirect("main:home")
+    

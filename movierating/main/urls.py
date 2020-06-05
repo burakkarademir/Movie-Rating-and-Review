@@ -42,5 +42,7 @@ urlpatterns = [
     path('deleteproduction/<int:movie_id>/<int:key_id>/', views.delete_production, name="delete_production"),
     path('deletereleasedates/<int:movie_id>/', views.delete_release_date, name="delete_release_date"),
     path('deletesoundtrack/<int:movie_id>/<int:soundtrack_id>/', views.delete_soundtrack, name="delete_soundtrack"),
+    path('deletemoviecast/<int:movie_id>/<int:character_id>/<int:person_id>/<int:gender_id>/', views.delete_movie_cast, name="delete_movie_cast"),
+    path('deletemoviecrew/<int:movie_id>/<int:person_id>/<int:department_id>/', views.delete_movie_crew, name="delete_movie_crew")
     # path('add_info/<int:id>/', views.addInfo, name="add_info")
 ]
