@@ -101,3 +101,9 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model = ratings
         fields = ('rating',)
+
+
+class GenreForm(forms.ModelForm):
+    class Meta:
+        model = genres
+        fields = ('genre',)

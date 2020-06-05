@@ -157,7 +157,7 @@ def add_keywords(request, id):
         if form.is_valid():
             data = form.save(commit=False)
             data.save()
-            kw = keywords.objects.get(keyword_name=data.keyword_name)
+            kw = keywords.objects.latest('keyword_id')
             mk = movie_keywords(keyword_id=kw)
             mk.save()
             mk.movie_id.add(movie)
@@ -377,3 +377,20 @@ def edit_soundtrack(request, id):
     else:
         form = SoundtrackForm(instance=soundtrack_info)
     return render(request, 'main/edit_soundtrack.html', {"form": form})
+
+
+def add_genre(request, id):
+    movie = Movie.objects.get(movie_id=id)
+    if request.method == "POST":
+        form = GenreForm(request.POST or None)
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.save()
+            kw = genres.objects.get(genre=data.genre)
+            mk = movie_genre(genre_id=kw)
+            mk.save()
+            mk.movie_id.add(movie)
+            return redirect("main:home")
+    else:
+        form = GenreForm()
+    return render(request, 'main/add_genre.html', {"form": form})
